@@ -30,13 +30,13 @@ public class AvisoDAO extends ConnectBD {
 			int affectedRows = ptst.executeUpdate();
 
 			if (affectedRows == 0) {
-				throw new SQLException("A inserção falhou. Nenhuma linha foi alterada.");
+				throw new SQLException("A inserÃ§Ã£o falhou. Nenhuma linha foi alterada.");
 			}
 			ResultSet generatedKeys = ptst.getGeneratedKeys();
 			if (generatedKeys.next()) {
 				aviso.setIdAviso(generatedKeys.getInt(1));
 			} else {
-				throw new SQLException("A inserção falhou. Nenhum id foi retornado.");
+				throw new SQLException("A inserÃ§Ã£o falhou. Nenhum id foi retornado.");
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -87,6 +87,20 @@ public class AvisoDAO extends ConnectBD {
 			}
 			return resultado;
 		}
+		
+		public ResultSet buscarAvisoporId(AvisoVO aviso) {
+			String sql = "SELECT * FROM aviso WHERE idAviso=?";
+			PreparedStatement ptst;
+			ResultSet resultado = null;
+			try {
+				ptst = getConnection().prepareStatement(sql);
+				ptst.setString(1, aviso.getAssuntoAviso());
+				resultado = ptst.executeQuery();
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+			return resultado;
+		}
 
 		// Remover os dados do aviso na tabela aviso do Banco de Dados por assunto
 		public void removerAvisoporAssunto(AvisoVO aviso) {
@@ -103,7 +117,7 @@ public class AvisoDAO extends ConnectBD {
 		}
 		
 		// Remover os dados do aviso na tabela aviso do Banco de Dados por Id
-		public void removerAvisopoId(AvisoVO aviso) {
+		public void removerAvisoporId(AvisoVO aviso) {
 			String sql = "DELETE FROM aviso WHERE idAviso=?";
 			PreparedStatement ptst;
 			try {
@@ -116,7 +130,7 @@ public class AvisoDAO extends ConnectBD {
 			}
 		}
 
-		// Altera o assunto e o conteúdo do aviso na tabela aviso do Banco de Dados
+		// Altera o assunto e o conteÃºdo do aviso na tabela aviso do Banco de Dados
 		public void alterarAviso(AvisoVO aviso) {
 			String sql = "UPDATE aviso SET assuntoAviso=?, conteudoAviso=? WHERE idAviso=?";
 			PreparedStatement ptst;

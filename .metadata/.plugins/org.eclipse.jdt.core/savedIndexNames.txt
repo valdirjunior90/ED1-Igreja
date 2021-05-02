@@ -1,0 +1,4 @@
+INDEX VERSION 1.131+C:\Users\babyd\Google Drive\UFERSA\P5\ED I\ws-projetoed1\.metadata\.plugins\org.eclipse.jdt.core
+2740389792.index
+1355882363.index
+1061125553.index
