@@ -9,7 +9,7 @@ import igreja.ModelDAO.AvisoDAO;
 import igreja.ModelVO.AvisoVO;
 
 public class AvisoBO {
-	
+
 	static private AvisoDAO dao = new AvisoDAO();
 
 	public void inserir(AvisoVO vo) throws InsertException {
@@ -24,13 +24,13 @@ public class AvisoBO {
 			throw new InsertException(e.getMessage());
 		}
 	}
-	
+
 	public List<AvisoVO> listar() {
 		List<AvisoVO> aviso = dao.listar();
 
 		return aviso;
 	}
-	
+
 	public void AlterarAviso(AvisoVO vo) throws InsertException {
 		try {
 			ResultSet rs = dao.buscarAvisoporAssunto(vo);
@@ -43,7 +43,7 @@ public class AvisoBO {
 			throw new InsertException(e.getMessage());
 		}
 	}
-	
+
 	public void removerAvisoporAssunto(AvisoVO vo) throws InsertException {
 		try {
 			ResultSet rs = dao.buscarAvisoporAssunto(vo);
@@ -56,7 +56,7 @@ public class AvisoBO {
 			throw new InsertException(e.getMessage());
 		}
 	}
-	
+
 	public void removerAvisoporId(AvisoVO vo) throws InsertException {
 		try {
 			ResultSet rs = dao.buscarAvisoporId(vo);
@@ -69,6 +69,5 @@ public class AvisoBO {
 			throw new InsertException(e.getMessage());
 		}
 	}
-	
-	
+
 }

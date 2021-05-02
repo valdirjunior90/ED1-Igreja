@@ -198,6 +198,8 @@ public class Teste {
 		}while(opcao != 0);
 	}
 
+	// Menu aviso e métodos ---------------------------------------------------------------------------
+
 	public static void menuAviso() throws SQLException, ParseException{
 		int opcao;	
 		do{
@@ -223,7 +225,7 @@ public class Teste {
 					imprimirAviso();
 					break;
 				case 4: 
-					excluirAvisoPorAssunto(scan);
+					excluirAvisoPorId(scan);
 					break;		
 				default:
 					break;
@@ -236,6 +238,7 @@ public class Teste {
 
 	private static void adicionarAviso() throws SQLException, ParseException{
 		System.out.println("Criando um aviso, entre com as informações: ");
+		scan.nextLine();
 		aviso.setAssuntoAviso(leInformacao("Assunto: ", scan));
 		aviso.setConteudoAviso(leInformacao("Conteúdo: ", scan));
 		aviso.setDataAviso(new GregorianCalendar(2000,01,15));
@@ -246,7 +249,7 @@ public class Teste {
 		avisoDAO.inserir(aviso);
 	}
 
-	private static void excluirAvisoPorAssunto (Scanner scan) {
+	private static void excluirAvisoPorId (Scanner scan) {
 		aviso.setIdAviso(leInformacaoInt("Id: ", scan));
 		avisoDAO.removerAvisoporId(aviso);
 	}
@@ -266,6 +269,8 @@ public class Teste {
 			System.out.println(avisos2.toString());
 		}
 	}
+
+	// fim Menu aviso e métodos ---------------------------------------------------------------------------
 	
 
 	public static void adicionarVisitante() throws SQLException, ParseException{

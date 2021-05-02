@@ -26,7 +26,7 @@ public class AvisoDAO extends ConnectBD {
 			ptst.setString(4, aviso.getAssuntoAviso());
 			ptst.setString(5, aviso.getConteudoAviso());
 			ptst.setInt(6, aviso.getIdLider());
-			
+
 			int affectedRows = ptst.executeUpdate();
 
 			if (affectedRows == 0) {
@@ -42,107 +42,107 @@ public class AvisoDAO extends ConnectBD {
 			ex.printStackTrace();
 		}
 	}
-		
-		// Listar os avisos existentes na tabela aviso do Banco de Dados
-		public List<AvisoVO> listar() {
-				String sql = "SELECT * FROM aviso";
-				Statement st;
-				ResultSet resultado = null;
-				List<AvisoVO> avisos = new ArrayList<AvisoVO>();
-				try {
-					st = getConnection().createStatement();
-					resultado = st.executeQuery(sql);
-					while (resultado.next()) {
-						AvisoVO aviso = new AvisoVO();
-						aviso.setIdAviso(resultado.getInt("idAviso"));
-						
-						Date dataAviso = (resultado.getDate("dataAviso"));
-						Calendar cale = Calendar.getInstance();
-						cale.setTime(dataAviso);
 
-						aviso.setOrigemAviso(resultado.getString("origemAviso"));
-						aviso.setDestinoAviso(resultado.getString("destinoAviso"));
-						aviso.setAssuntoAviso(resultado.getString("assuntoAviso"));
-						aviso.setConteudoAviso(resultado.getString("conteudoAviso"));
-						aviso.setIdLider(resultado.getInt("idLider"));
-						avisos.add(aviso);
-					}
-				} catch (SQLException ex) {
-					ex.printStackTrace();
-				}
-				return avisos;
+	// Listar os avisos existentes na tabela aviso do Banco de Dados
+	public List<AvisoVO> listar() {
+		String sql = "SELECT * FROM aviso";
+		Statement st;
+		ResultSet resultado = null;
+		List<AvisoVO> avisos = new ArrayList<AvisoVO>();
+		try {
+			st = getConnection().createStatement();
+			resultado = st.executeQuery(sql);
+			while (resultado.next()) {
+				AvisoVO aviso = new AvisoVO();
+				aviso.setIdAviso(resultado.getInt("idAviso"));
+
+				Date dataAviso = (resultado.getDate("dataAviso"));
+				Calendar cale = Calendar.getInstance();
+				cale.setTime(dataAviso);
+
+				aviso.setOrigemAviso(resultado.getString("origemAviso"));
+				aviso.setDestinoAviso(resultado.getString("destinoAviso"));
+				aviso.setAssuntoAviso(resultado.getString("assuntoAviso"));
+				aviso.setConteudoAviso(resultado.getString("conteudoAviso"));
+				aviso.setIdLider(resultado.getInt("idLider"));
+				avisos.add(aviso);
 			}
-		
-		// Busca os dados do aviso pelo assunto na tabela aviso do Banco de Dados
-		public ResultSet buscarAvisoporAssunto(AvisoVO aviso) {
-			String sql = "SELECT * FROM aviso WHERE assuntoAviso=?";
-			PreparedStatement ptst;
-			ResultSet resultado = null;
-			try {
-				ptst = getConnection().prepareStatement(sql);
-				ptst.setString(1, aviso.getAssuntoAviso());
-				resultado = ptst.executeQuery();
-			} catch (SQLException ex) {
-				ex.printStackTrace();
-			}
-			return resultado;
+		} catch (SQLException ex) {
+			ex.printStackTrace();
 		}
-		
-		public ResultSet buscarAvisoporId(AvisoVO aviso) {
-			String sql = "SELECT * FROM aviso WHERE idAviso=?";
-			PreparedStatement ptst;
-			ResultSet resultado = null;
-			try {
-				ptst = getConnection().prepareStatement(sql);
-				ptst.setString(1, aviso.getAssuntoAviso());
-				resultado = ptst.executeQuery();
-			} catch (SQLException ex) {
-				ex.printStackTrace();
-			}
-			return resultado;
+		return avisos;
+	}
+
+	// Busca os dados do aviso pelo assunto na tabela aviso do Banco de Dados
+	public ResultSet buscarAvisoporAssunto(AvisoVO aviso) {
+		String sql = "SELECT * FROM aviso WHERE assuntoAviso=?";
+		PreparedStatement ptst;
+		ResultSet resultado = null;
+		try {
+			ptst = getConnection().prepareStatement(sql);
+			ptst.setString(1, aviso.getAssuntoAviso());
+			resultado = ptst.executeQuery();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
 		}
+		return resultado;
+	}
 
-		// Remover os dados do aviso na tabela aviso do Banco de Dados por assunto
-		public void removerAvisoporAssunto(AvisoVO aviso) {
-			String sql = "DELETE FROM aviso WHERE assuntoAviso=?";
-			PreparedStatement ptst;
-			try {
-				ptst = getConnection().prepareStatement(sql);
-				ptst.setString(1, aviso.getAssuntoAviso());
-				ptst.executeUpdate();
-
-			} catch (SQLException ex) {
-				ex.printStackTrace();
-			}
+	public ResultSet buscarAvisoporId(AvisoVO aviso) {
+		String sql = "SELECT * FROM aviso WHERE idAviso=?";
+		PreparedStatement ptst;
+		ResultSet resultado = null;
+		try {
+			ptst = getConnection().prepareStatement(sql);
+			ptst.setString(1, aviso.getAssuntoAviso());
+			resultado = ptst.executeQuery();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
 		}
-		
-		// Remover os dados do aviso na tabela aviso do Banco de Dados por Id
-		public void removerAvisoporId(AvisoVO aviso) {
-			String sql = "DELETE FROM aviso WHERE idAviso=?";
-			PreparedStatement ptst;
-			try {
-				ptst = getConnection().prepareStatement(sql);
-				ptst.setInt(1, aviso.getIdAviso());
-				ptst.executeUpdate();
+		return resultado;
+	}
 
-			} catch (SQLException ex) {
-				ex.printStackTrace();
-			}
+	// Remover os dados do aviso na tabela aviso do Banco de Dados por assunto
+	public void removerAvisoporAssunto(AvisoVO aviso) {
+		String sql = "DELETE FROM aviso WHERE assuntoAviso=?";
+		PreparedStatement ptst;
+		try {
+			ptst = getConnection().prepareStatement(sql);
+			ptst.setString(1, aviso.getAssuntoAviso());
+			ptst.executeUpdate();
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
 		}
+	}
 
-		// Altera o assunto e o conteúdo do aviso na tabela aviso do Banco de Dados
-		public void alterarAviso(AvisoVO aviso) {
-			String sql = "UPDATE aviso SET assuntoAviso=?, conteudoAviso=? WHERE idAviso=?";
-			PreparedStatement ptst;
-			try {
-				ptst = getConnection().prepareStatement(sql);
-				ptst.setString(1, aviso.getAssuntoAviso());
-				ptst.setString(2, aviso.getConteudoAviso());
-				ptst.setInt(3, aviso.getIdAviso());
-				ptst.executeUpdate();
+	// Remover os dados do aviso na tabela aviso do Banco de Dados por Id
+	public void removerAvisoporId(AvisoVO aviso) {
+		String sql = "DELETE FROM aviso WHERE idAviso=?";
+		PreparedStatement ptst;
+		try {
+			ptst = getConnection().prepareStatement(sql);
+			ptst.setInt(1, aviso.getIdAviso());
+			ptst.executeUpdate();
 
-			} catch (SQLException ex) {
-				ex.printStackTrace();
-			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
 		}
+	}
+
+	// Altera o assunto e o conteúdo do aviso na tabela aviso do Banco de Dados
+	public void alterarAviso(AvisoVO aviso) {
+		String sql = "UPDATE aviso SET assuntoAviso=?, conteudoAviso=? WHERE idAviso=?";
+		PreparedStatement ptst;
+		try {
+			ptst = getConnection().prepareStatement(sql);
+			ptst.setString(1, aviso.getAssuntoAviso());
+			ptst.setString(2, aviso.getConteudoAviso());
+			ptst.setInt(3, aviso.getIdAviso());
+			ptst.executeUpdate();
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+	}
 }
