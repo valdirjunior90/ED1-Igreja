@@ -7,6 +7,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+
+import igreja.ModelDAO.AvisoDAO;
 import igreja.ModelDAO.IgrejaDAO;
 import igreja.ModelDAO.VisitanteDAO;
 import igreja.ModelDAO.PessoaDAO;
@@ -17,6 +19,36 @@ import java.util.Scanner;
 
 
 public class Teste {
+
+	public static void menuGeral () throws SQLException, ParseException{
+		int opcao;
+			do{
+			System.out.println("=========================");
+			System.out.println("Digite a opção desejada:");
+			System.out.println("1: CRUD Igreja ");
+			System.out.println("2: CRUD Visitantes");
+			System.out.println("3: CRUD Avisos");
+			System.out.println("0: Sair");
+			System.out.println("=========================");
+			opcao = scan.nextInt();
+			
+				switch (opcao) {
+					case 1:
+						menuIgreja();
+						break;
+					case 2: 
+						menuVisitante();
+						break;
+					case 3: 
+						menuAviso();
+						break;	
+					default:
+						break;
+					}
+				
+			}while(opcao != 0);
+	}
+
 	static Scanner scan = new Scanner(System.in);
 	static IgrejaDAO igreDAO = new IgrejaDAO();
 	static IgrejaVO igreja = new IgrejaVO();
@@ -130,36 +162,6 @@ public class Teste {
 		return num;
 	}
 
-	
-	public static void menuGeral () throws SQLException, ParseException{
-		int opcao;
-			do{
-			System.out.println("=========================");
-			System.out.println("Digite a opção desejada:");
-			System.out.println("1: CRUD Igreja ");
-			System.out.println("2: CRUD Visitantes");
-			System.out.println("3: CRUD Avisos");
-			System.out.println("0: Sair");
-			System.out.println("=========================");
-			opcao = scan.nextInt();
-			
-				switch (opcao) {
-					case 1:
-						menuIgreja();
-						break;
-					case 2: 
-						menuVisitante();
-						break;
-					case 3: 
-						menuAviso();
-						break;	
-					default:
-						break;
-					}
-				
-			}while(opcao != 0);
-	}
-
 	public static void menuIgreja(){
 
 	}
@@ -188,7 +190,6 @@ public class Teste {
 					imprimirVisitantes();
 					break;
 				case 4: 
-					
 					deletaVisitante();
 					break;		
 				default:
@@ -197,8 +198,73 @@ public class Teste {
 		}while(opcao != 0);
 	}
 
-	public static void menuAviso(){
-		
+	public static void menuAviso() throws SQLException, ParseException{
+		int opcao;	
+		do{
+			System.out.println("=========================");
+			System.out.println("Digite a opção desejada:");
+			System.out.println("1: Adicionar Aviso ");
+			System.out.println("2: Listar Aviso");
+			System.out.println("3: Imprimir Aviso");
+			System.out.println("4: Deletar Aviso");
+			System.out.println("0: Sair");
+			System.out.println("=========================");
+
+			opcao = scan.nextInt();
+			
+			switch (opcao) {
+				case 1:
+					adicionarAviso();
+					break;
+				case 2: 
+					listarAvisos();
+					break;
+				case 3: 
+					imprimirAviso();
+					break;
+				case 4: 
+					excluirAvisoPorAssunto(scan);
+					break;		
+				default:
+					break;
+				}
+		}while(opcao != 0);
+	}
+
+	static AvisoDAO avisoDAO = new AvisoDAO();
+	static AvisoVO aviso = new AvisoVO();
+
+	private static void adicionarAviso() throws SQLException, ParseException{
+		System.out.println("Criando um aviso, entre com as informações: ");
+		aviso.setAssuntoAviso(leInformacao("Assunto: ", scan));
+		aviso.setConteudoAviso(leInformacao("Conteúdo: ", scan));
+		aviso.setDataAviso(new GregorianCalendar(2000,01,15));
+		aviso.setDestinoAviso(leInformacao("Destinatários: ", scan));
+		aviso.setIdLider(leInformacaoInt("Id lider: ", scan));
+		aviso.setOrigemAviso(leInformacao("Origim: ", scan));
+
+		avisoDAO.inserir(aviso);
+	}
+
+	private static void excluirAvisoPorAssunto (Scanner scan) {
+		aviso.setIdAviso(leInformacaoInt("Id: ", scan));
+		avisoDAO.removerAvisoporId(aviso);
+	}
+	
+	private static void listarAvisos() {
+		// Listar todas as Igrejas
+		List<AvisoVO> avisos = avisoDAO.listar();
+		for (AvisoVO aviso : avisos) {
+			System.out.println(aviso.getIdAviso() + "\t" + aviso.getAssuntoAviso() + "\t"
+					+ aviso.getAssuntoAviso());
+		}
+	}
+
+	private static void imprimirAviso(){
+		List<AvisoVO> avisos = avisoDAO.listar();
+		for (AvisoVO avisos2 : avisos) {
+			System.out.println(avisos2.toString());
+		}
 	}
 	
 
@@ -273,8 +339,6 @@ public class Teste {
 		
 
 		visDAO.remover(vis);
-
-
 	}
 
 }

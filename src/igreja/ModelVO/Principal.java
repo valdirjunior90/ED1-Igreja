@@ -16,7 +16,7 @@ import igreja.ModelDAO.VisitanteDAO;
 
 public class Principal {
 	public static void main(String[] args) throws SQLException {
-
+	
 		// // Novo usuário
 		
 		// UsuarioDAO<UsuarioVO> usuDAO = new UsuarioDAO<UsuarioVO>();
@@ -88,6 +88,7 @@ public class Principal {
 		
 //		System.out.println(pessoa.toString());
 		
+
 		VisitanteDAO<VisitanteVO> visDAO = new VisitanteDAO<VisitanteVO>();
 		PessoaDAO<PessoaVO> pessoaDAO = new PessoaDAO<PessoaVO>();
 		VisitanteVO vis = new VisitanteVO();
