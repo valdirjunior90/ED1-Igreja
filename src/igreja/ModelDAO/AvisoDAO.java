@@ -42,6 +42,11 @@ public class AvisoDAO extends ConnectBD {
 			ex.printStackTrace();
 		}
 	}
+	public static Calendar toCalendar(Date date){ 
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		return cal;
+	}
 
 	// Listar os avisos existentes na tabela aviso do Banco de Dados
 	public List<AvisoVO> listar() {
@@ -56,10 +61,11 @@ public class AvisoDAO extends ConnectBD {
 				AvisoVO aviso = new AvisoVO();
 				aviso.setIdAviso(resultado.getInt("idAviso"));
 
-				Date dataAviso = (resultado.getDate("dataAviso"));
-				Calendar cale = Calendar.getInstance();
-				cale.setTime(dataAviso);
+				// Date dataAviso = (resultado.getDate("dataAviso"));
+				// Calendar cale = Calendar.getInstance();
+				// cale.setTime(dataAviso);
 
+				aviso.setDataAviso(toCalendar(resultado.getDate("dataAviso")));
 				aviso.setOrigemAviso(resultado.getString("origemAviso"));
 				aviso.setDestinoAviso(resultado.getString("destinoAviso"));
 				aviso.setAssuntoAviso(resultado.getString("assuntoAviso"));

@@ -20,34 +20,7 @@ import java.util.Scanner;
 
 public class Teste {
 
-	public static void menuGeral () throws SQLException, ParseException{
-		int opcao;
-			do{
-			System.out.println("=========================");
-			System.out.println("Digite a opção desejada:");
-			System.out.println("1: CRUD Igreja ");
-			System.out.println("2: CRUD Visitantes");
-			System.out.println("3: CRUD Avisos");
-			System.out.println("0: Sair");
-			System.out.println("=========================");
-			opcao = scan.nextInt();
-			
-				switch (opcao) {
-					case 1:
-						menuIgreja();
-						break;
-					case 2: 
-						menuVisitante();
-						break;
-					case 3: 
-						menuAviso();
-						break;	
-					default:
-						break;
-					}
-				
-			}while(opcao != 0);
-	}
+	
 
 	static Scanner scan = new Scanner(System.in);
 	static IgrejaDAO igreDAO = new IgrejaDAO();
@@ -55,6 +28,8 @@ public class Teste {
 	static VisitanteVO visVo = new VisitanteVO();
 	static VisitanteDAO visDao = new VisitanteDAO();
 	static PessoaDAO pesDao = new PessoaDAO();
+	static AvisoDAO avisoDAO = new AvisoDAO();
+	static AvisoVO aviso = new AvisoVO();
 	
 	public static void main(String[] args) throws SQLException, ParseException {
 
@@ -63,32 +38,8 @@ public class Teste {
 	}
 
 
-	private static void excluirIgreja(Scanner scan){
 
-		igreja.setNomeIgreja(leInformacao("Nome: ", scan));
-		igreDAO.remover(igreja);
-
-	}
-
-	
-	private static void listarIgrejas() {
-		// Listar todas as Igrejas
-		List<IgrejaVO> igrejas = igreDAO.listar();
-		for (IgrejaVO igre2 : igrejas) {
-			System.out.println(igre2.getIdIgreja() + "\t" + igre2.getNomeIgreja() + "\t"
-					+ igre2.getOficialPastorIgreja() + "\t" + igre2.getFoneIgreja());
-		}
-	}
-	
-	private static void imprimirIgrejas(){
-		List<IgrejaVO> igrejas = igreDAO.listar();
-		for (IgrejaVO igre2 : igrejas) {
-			System.out.println(igre2.toString());
-		}
-	}
-
-		
-		
+	//======================= CRUD IGREJAS ===========================
 	public static void adicionarIgreja(Scanner scan){
 
 		System.out.println("Criando uma igreja, entre com as informações:");
@@ -119,16 +70,46 @@ public class Teste {
 		System.out.println(igreja);
 	}
 
-	protected static Date leInformacaoData(String msg, Scanner scan) throws ParseException{
-		System.out.println(msg);
-		String date = scan.nextLine();
-		DateFormat data = DateFormat.getDateInstance();
+	private static void excluirIgreja(Scanner scan){
 
-		Date da = data.parse(date);
+		igreja.setIdIgreja(leInformacaoInt("ID da igreja: ", scan));
+		igreDAO.remover(igreja);
+
+	}
+
+	
+	private static void listarIgrejas() {
+		// Listar todas as Igrejas
+		List<IgrejaVO> igrejas = igreDAO.listar();
+		for (IgrejaVO igre2 : igrejas) {
+			System.out.println(igre2.getIdIgreja() + "\t" + igre2.getNomeIgreja() + "\t"
+					+ igre2.getOficialPastorIgreja() + "\t" + igre2.getFoneIgreja());
+		}
+	}
+	
+	private static void imprimirIgrejas(){
+		List<IgrejaVO> igrejas = igreDAO.listar();
+		for (IgrejaVO igre2 : igrejas) {
+			System.out.println(igre2.toString());
+		}
+	}
+
+	//=====================================================================
 
 		
-		return da; 
-	}
+		
+	//=============== UTILITÁRIOS =======================
+
+	// protected static Date leInformacaoData(String msg, Scanner scan) throws ParseException{
+	// 	System.out.println(msg);
+	// 	String date = scan.nextLine();
+	// 	DateFormat data = DateFormat.getDateInstance();
+
+	// 	Date da = data.parse(date);
+
+		
+	// 	return da; 
+	// }
 
 	protected static String leInformacao(String msg, Scanner scan){
 
@@ -149,6 +130,7 @@ public class Teste {
 
 				System.out.println(msg);
 				String entrada = scan.nextLine();
+				scan.nextLine();
 
 				num = Integer.parseInt(entrada);
 
@@ -162,8 +144,70 @@ public class Teste {
 		return num;
 	}
 
-	public static void menuIgreja(){
+	//==========================================================
 
+	//=======================MENUS=============================
+
+	public static void menuGeral () throws SQLException, ParseException{
+		int opcao;
+			do{
+			System.out.println("=========================");
+			System.out.println("Digite a opção desejada:");
+			System.out.println("1: CRUD Igreja ");
+			System.out.println("2: CRUD Visitantes");
+			System.out.println("3: CRUD Avisos");
+			System.out.println("0: Sair");
+			System.out.println("=========================");
+			opcao = scan.nextInt();
+			
+				switch (opcao) {
+					case 1:
+						menuIgreja();
+						break;
+					case 2: 
+						menuVisitante();
+						break;
+					case 3: 
+						menuAviso();
+						break;	
+					default:
+						break;
+					}
+				
+			}while(opcao != 0);
+	}
+
+	public static void menuIgreja(){
+		int opcao;	
+		do{
+			System.out.println("=========================");
+			System.out.println("Digite a opção desejada:");
+			System.out.println("1: Adicionar Igreja ");
+			System.out.println("2: Listar Igreja");
+			System.out.println("3: Imprimir Igrejas");
+			System.out.println("4: Deletar Igreja");
+			System.out.println("0: Sair");
+			System.out.println("=========================");
+
+			opcao = scan.nextInt();
+			
+			switch (opcao) {
+				case 1:
+					adicionarIgreja(scan);
+					break;
+				case 2: 
+					listarIgrejas();
+					break;
+				case 3: 
+					imprimirIgrejas();
+					break;
+				case 4: 
+					excluirIgreja(scan);
+					break;		
+				default:
+					break;
+				}
+		}while(opcao != 0);
 	}
 	public static void menuVisitante() throws SQLException, ParseException{
 		int opcao;	
@@ -198,7 +242,6 @@ public class Teste {
 		}while(opcao != 0);
 	}
 
-	// Menu aviso e métodos ---------------------------------------------------------------------------
 
 	public static void menuAviso() throws SQLException, ParseException{
 		int opcao;	
@@ -232,9 +275,9 @@ public class Teste {
 				}
 		}while(opcao != 0);
 	}
+	//======================================================
 
-	static AvisoDAO avisoDAO = new AvisoDAO();
-	static AvisoVO aviso = new AvisoVO();
+	// ====================== CRUD AVISOS ====================
 
 	private static void adicionarAviso() throws SQLException, ParseException{
 		System.out.println("Criando um aviso, entre com as informações: ");
@@ -255,7 +298,7 @@ public class Teste {
 	}
 	
 	private static void listarAvisos() {
-		// Listar todas as Igrejas
+		// Listar todos os Avisos
 		List<AvisoVO> avisos = avisoDAO.listar();
 		for (AvisoVO aviso : avisos) {
 			System.out.println(aviso.getIdAviso() + "\t" + aviso.getAssuntoAviso() + "\t"
@@ -270,8 +313,9 @@ public class Teste {
 		}
 	}
 
-	// fim Menu aviso e métodos ---------------------------------------------------------------------------
-	
+	//========================================================
+
+	//==================== CRUD VISITANTES ==================
 
 	public static void adicionarVisitante() throws SQLException, ParseException{
 		VisitanteDAO<VisitanteVO> visDAO = new VisitanteDAO<VisitanteVO>();
@@ -309,11 +353,7 @@ public class Teste {
 		visDAO.inserir(vis);
 		pessoaDAO.inserir(vis);
 	}
-	public static Calendar toCalendar(Date date){ 
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
-		return cal;
-	}
+	
 
 	private static void listarVisitantes() {
 		VisitanteDAO<VisitanteVO> visDAO = new VisitanteDAO<VisitanteVO>();

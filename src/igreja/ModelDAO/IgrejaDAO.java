@@ -115,11 +115,11 @@ public class IgrejaDAO extends ConnectBD {
 
 	// Remover os dados da Igreja na tabela Igreja do Banco de Dados
 	public void remover(IgrejaVO igreja) {
-		String sql = "DELETE FROM igreja WHERE nomeIgreja=?";
+		String sql = "DELETE FROM igreja WHERE idIgreja=?";
 		PreparedStatement ptst;
 		try {
 			ptst = getConnection().prepareStatement(sql);
-			ptst.setString(1, igreja.getNomeIgreja());
+			ptst.setInt(1, igreja.getIdIgreja());
 			ptst.executeUpdate();
 
 		} catch (SQLException ex) {
